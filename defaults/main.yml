@@ -1,6 +1,6 @@
 ---
-squid_exporter_version:   "1.9.1"
-squid_exporter_url:       "https://github.com/boynux/squid-exporter/releases/download/v{{ squid_exporter_version }}/squid-exporter"
-squid_exporter_squid_host: localhost
-squid_exporter_squid_port: 3128
-squid_exporter_listen_port: "9103"
+cx_exporter_version:  "1.0"
+cx_exporter_url:      "https://github.com/lotusnoir/prometheus-3cx_exporter/releases/download/{{ cx_exporter_version }}/3cx_exporter"
+cx_exporter_host:     'localhost:5485'
+cx_exporter_username: 'cfguser_default'
+cx_exporter_password: 'ei0v40mwz0c'

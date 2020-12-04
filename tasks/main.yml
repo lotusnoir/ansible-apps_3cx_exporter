@@ -1,29 +1,42 @@
 ---
-- name: "Check for squid_exporter binary"
+- name: "Check for 3cx_exporter binary"
   stat:
-    path: "/usr/local/bin/squid_exporter"
+    path: "/usr/local/bin/3cx_exporter"
   changed_when: false
-  register: squid_exporter_install
+  register: cx_exporter_install
 
-- when: not squid_exporter_install.stat.exists
+- when: not cx_exporter_install.stat.exists
   block:
-    - name: "Download squid_exporter..."
+    - name: "Download 3cx_exporter..."
       get_url:
-        url: '{{ squid_exporter_url }}'
-        dest: /usr/local/bin/
-        timeout: 120
-        mode: 0755
+        url: '{{ cx_exporter_url }}'
+        dest: '/usr/local/bin/'
+        timeout: '120'
+        mode: '0755'
 
-- name: "Create systemd for squid_exporter"
+    - name: "Create config directory"
+      file:
+        path: '/etc/3cx_exporter'
+        state: directory
+        mode: '0755'
+
+- name: "Create config file for  3cx_exporter"
   template:
-    src: squid_exporter.service
-    dest: /etc/systemd/system/
+    src: 'config.json.j2'
+    dest: '/etc/3cx_exporter/config.json'
     mode: '0644'
-  notify: "restart squid_exporter"
+  notify: "restart 3cx_exporter"
 
-- name: "Enable and Start squid_exporter.service"
+- name: "Create systemd for 3cx_exporter"
+  template:
+    src: '3cx_exporter.service.j2'
+    dest: '/etc/systemd/system/cx_exporter.service'
+    mode: '0644'
+  notify: "restart 3cx_exporter"
+
+- name: "Enable and Start cx_exporter.service"
   systemd:
-    name: squid_exporter
+    name: cx_exporter
     state: started
     enabled: true
     daemon_reload: true

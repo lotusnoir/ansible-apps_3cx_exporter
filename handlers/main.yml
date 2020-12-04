@@ -1,5 +1,5 @@
 ---
-- name: "restart squid_exporter"
+- name: "restart 3cx_exporter"
   service:
-    name: "squid_exporter"
+    name: "3cx_exporter"
     state: "restarted"
