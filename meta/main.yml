@@ -9,10 +9,10 @@ galaxy_info:
   platforms:
     - name: "Ubuntu"
       versions:
-        - "focal"
+        - "all"
     - name: "Debian"
       versions:
-        - "buster"
+        - "all"
 
   galaxy_tags:
     - 3cx

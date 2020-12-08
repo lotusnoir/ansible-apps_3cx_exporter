@@ -1,17 +1,24 @@
 ---
+- name: "End play if distribution not suported"
+  meta: end_host
+  when:
+    - ansible_distribution != "Debian"
+    - ansible_distribution != "Ubuntu"
+    - ansible_distribution != "CentOS"
+
 - name: "Check for 3cx_exporter binary"
   stat:
-    path: "/usr/local/bin/3cx_exporter"
+    path: "{{ cx_exporter_install_dir }}/3cx-exporter"
   changed_when: false
   register: cx_exporter_install
 
-- when: not cx_exporter_install.stat.exists
+- when: not cx_exporter_install.stat.exists or cx_exporter_force_install|bool
   block:
     - name: "Download 3cx_exporter..."
       get_url:
         url: '{{ cx_exporter_url }}'
-        dest: '/usr/local/bin/'
-        timeout: '120'
+        dest: '{{ cx_exporter_install_dir }}/3cx-exporter'
+        timeout: '60'
         mode: '0755'
 
     - name: "Create config directory"
@@ -30,13 +37,13 @@
 - name: "Create systemd for 3cx_exporter"
   template:
     src: '3cx_exporter.service.j2'
-    dest: '/etc/systemd/system/cx_exporter.service'
+    dest: '/etc/systemd/system/3cx_exporter.service'
     mode: '0644'
   notify: "restart 3cx_exporter"
 
-- name: "Enable and Start cx_exporter.service"
+- name: "Enable and Start 3cx_exporter.service"
   systemd:
-    name: cx_exporter
+    name: 3cx_exporter
     state: started
     enabled: true
     daemon_reload: true

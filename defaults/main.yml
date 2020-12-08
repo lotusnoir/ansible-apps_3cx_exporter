@@ -1,6 +1,12 @@
 ---
-cx_exporter_version:  "1.0"
-cx_exporter_url:      "https://github.com/lotusnoir/prometheus-3cx_exporter/releases/download/{{ cx_exporter_version }}/3cx_exporter"
-cx_exporter_host:     'localhost:5485'
-cx_exporter_username: 'cfguser_default'
-cx_exporter_password: 'ei0v40mwz0c'
+# Binary install
+cx_exporter_version:        "1.0"
+cx_exporter_url:            "https://github.com/lotusnoir/prometheus-3cx_exporter/releases/download/{{ cx_exporter_version }}/3cx_exporter"
+cx_exporter_install_dir:    "/usr/local/bin"
+cx_exporter_force_install:  false
+
+
+# Systemd options
+cx_exporter_host:           'localhost:5485'
+cx_exporter_username:       'cfguser_default'
+cx_exporter_password:       'ei0v40mwz0c'
